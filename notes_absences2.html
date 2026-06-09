@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notes & Absences - NextMind Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --blue:#1A6BFF; --blue-dark:#1456CC; --blue-pale:#EBF2FF;
+      --bg:#F4F6F9; --white:#FFFFFF;
+      --text:#1A1D23; --text-mid:#4B5563; --text-light:#9CA3AF;
+      --border:#E5E7EB; --green:#16A34A; --orange:#D97706; --red:#DC2626;
+      --radius:10px; --shadow:0 1px 4px rgba(0,0,0,.08);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* Styles pour la compatibilité de navbar */
+    .navbar-nav .nav-link i {
+      font-style: normal;
+    }
+
+    /* PAGE */
+    .page{max-width:1160px;margin:0 auto;padding:32px 24px;display:flex;flex-direction:column;gap:24px;}
+    .page-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+    .page-title{font-size:22px;font-weight:700;}
+    .page-title small{display:block;font-size:13px;font-weight:400;color:var(--text-light);margin-top:2px;}
+    .head-btns{display:flex;gap:8px;}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:"Inter",sans-serif;transition:opacity .15s;}
+    .btn:hover{opacity:.88;}
+    .btn-primary{background:var(--blue);color:#fff;}
+    .btn-ghost{background:#fff;color:var(--text-mid);border:1.5px solid var(--border);}
+
+    /* TABS */
+    .tabs{display:flex;border-bottom:2px solid var(--border);}
+    .tab{padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;border:none;background:transparent;font-family:"Inter",sans-serif;color:var(--text-light);border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;display:flex;align-items:center;gap:7px;}
+    .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+    /* CARD */
+    .card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+    .card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px;}
+    .card-title{font-size:15px;font-weight:700;}
+    .card-title small{font-size:12px;font-weight:400;color:var(--text-light);margin-left:8px;}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .search{display:flex;align-items:center;gap:7px;border:1.5px solid var(--border);border-radius:8px;padding:7px 11px;background:#FAFAFA;}
+    .search:focus-within{border-color:var(--blue);}
+    .search i{color:var(--text-light);font-size:12px;}
+    .search input{border:none;background:transparent;font-family:"Inter",sans-serif;font-size:13px;color:var(--text);outline:none;width:160px;}
+    .fsel{font-family:"Inter",sans-serif;font-size:13px;border:1.5px solid var(--border);border-radius:8px;padding:7px 11px;background:#FAFAFA;color:var(--text-mid);outline:none;cursor:pointer;}
+    .fsel:focus{border-color:var(--blue);}
+
+    /* TABLE */
+    .tbl-wrap{overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;}
+    thead th{background:#F9FAFB;color:var(--text-light);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:11px 18px;text-align:left;border-bottom:1px solid var(--border);}
+    tbody tr{border-bottom:1px solid #F3F4F6;transition:background .12s;}
+    tbody tr:last-child{border:none;}
+    tbody tr:hover{background:#F9FAFB;}
+    tbody td{padding:13px 18px;font-size:13.5px;vertical-align:middle;}
+
+    /* EMPTY */
+    .empty{display:flex;flex-direction:column;align-items:center;padding:52px 20px;gap:10px;}
+    .empty i{font-size:36px;color:#D1D5DB;}
+    .empty p{font-size:13.5px;color:var(--text-light);}
+
+    /* CARD FOOTER */
+    .card-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-light);}
+    
+    /* MENTION */
+    .mention{font-size:12px;font-weight:600;}
+    .m-tb{color:#15803D;} .m-b{color:#1456CC;} .m-ab{color:#B45309;} .m-pas{color:#D97706;} .m-ins{color:#B91C1C;}
+
+    /* SECTION */
+    .section{display:none;flex-direction:column;gap:20px;}
+    .section.visible{display:flex;}
+  </style> 
+</head>
+<body>
+    <!--navigateur-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="acceuil2.html">
+                <img src="logo_white.png" alt="Logo" class="img-fluid rounded me-2" style="width: 4rem; height: 3rem; object-fit: cover;">
+                NextMind Academy
+            </a>
+             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="acceuil2.html">
+                            <i class="bi bi-house"> Acceuil</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Emploi_temps.html">
+                            <i class="bi bi-clipboard-data"> Emploi du temps</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cours.html">
+                            <i class="bi bi-book"> Cours</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="notes_absences2.html">
+                            <i class="bi bi-clipboard-data"> Notes & Absences</i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"> <span id="nav-username">username</span></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="profil2.html">
+                                    <i class="bi bi-person"></i> Profil
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="index2.html" onclick="localStorage.clear();">
+                                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page">
+        <div class="page-head">
+            <div class="page-title">
+                Notes & Absences
+                <small>Année scolaire 2026–2027</small>
+            </div>
+            <div class="head-btns">
+            <button class="btn btn-ghost" onclick="window.print()">
+                <i class="fas fa-download"></i> Exporter PDF
+            </button>
+        </div>
+    </div>
+    <!--deux interfaces : notes & absences-->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab(this, 'notes')"><i class="fas fa-star"></i> Notes</button>
+        <button class="tab" onclick="switchTab(this, 'absences')"><i class="fas fa-calendar-times"></i> Absences</button>
+    </div>
+    <!--section notes-->
+    <div id="section-notes" class="section visible">
+        <div class="card">
+            <div class="card-head">
+                <div class="card-title">Relevé de notes 
+                    <small>Semestre 1 – 2025-2026</small>
+                </div>
+                <div class="filters">
+                <div class="search"><i class="fas fa-search"></i><input type="text" placeholder="Rechercher…" oninput="filterTbl(this,'notes-tbody')"/></div>
+                </div>
+            </div>
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matière</th>
+                            <th>Contrôle 1</th>
+                            <th>Contrôle 2</th>
+                            <th>Examen</th>
+                            <th>Moyenne</th>
+                            <th>Mention</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notes-tbody"></tbody>
+                </table>
+                <div id="notes-empty" class="empty">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Aucune note enregistrée pour le moment.</p>
+                </div>
+            </div>
+            <div class="card-foot">
+                <span id="notes-count">0 matière(s)</span>
+            </div>
+        </div>
+    </div>
+    <!--section absences-->
+  <div id="section-absences" class="section">
+    <div class="card">
+        <div class="card-head">
+            <div class="card-title">Historique des absences <small>Semestre 2 – 2027</small></div>
+                <div class="filters">
+                    <div class="search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher…" oninput="filterTbl(this,'abs-tbody')"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                        <th>Matière & Professeur</th>
+                        <th>Date</th>
+                        <th>Durée</th>
+                        <th>Statut</th>
+                        <th>Justificatif</th>
+                        </tr>
+                    </thead>
+                    <tbody id="abs-tbody"></tbody>
+                </table>
+                <div id="abs-empty" class="empty">
+                    <i class="fas fa-calendar-check"></i>
+                    <p>Aucune absence enregistrée.</p>
+                </div>
+            </div>
+            <div class="card-foot">
+                <span id="abs-count">0 absence(s)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-primary text-white text-center p-3 mt-5">
+  2026 NextMind Academy - Plateforme Éducative
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const API = 'http://localhost:8080/nextacademy_3';
+
+  const etudiantConnex = localStorage.getItem('etudiant');
+  if (!etudiantConnex) {
+      window.location.href = 'index2.html';
+  }
+  const etudiant = JSON.parse(etudiantConnex);
+  document.getElementById('nav-username').textContent = etudiant.username || 'Étudiant';
+
+  document.addEventListener("DOMContentLoaded", () => {
+      if (etudiant && etudiant.id) {
+          chargerNotesEtudiant(etudiant.id);
+          chargerAbsencesEtudiant(etudiant.id);
+      }
+  });
+  // charger les notes
+  function chargerNotesEtudiant(etudiantId) {
+      fetch(API + '/notes2.php?etudiant_id=' + etudiantId)
+          .then(res => res.json())
+          .then(data => {
+              const tbody = document.getElementById('notes-tbody');
+              tbody.innerHTML = ''; 
+
+              if (!Array.isArray(data) || data.length === 0) {
+                  document.getElementById('notes-empty').style.display = 'flex';
+                  document.getElementById('notes-count').textContent = '0 Matière';
+                  return;
+              }
+
+              document.getElementById('notes-empty').style.display = 'none';
+
+              data.forEach(n => {
+                  let c1 = (n.controle1 !== null && n.controle1 !== undefined) ? parseFloat(n.controle1) : '—';
+                  let c2 = (n.controle2 !== null && n.controle2 !== undefined) ? parseFloat(n.controle2) : '—';
+                  let ex = (n.examen    !== null && n.examen    !== undefined) ? parseFloat(n.examen)    : '—';
+
+                  let total = 0;
+                  let nbNotes = 0;
+                  if (c1 !== '—') { total += c1; nbNotes++; }
+                  if (c2 !== '—') { total += c2; nbNotes++; }
+                  if (ex !== '—') { total += ex; nbNotes++; }
+
+                  let moyenneMatiere = nbNotes > 0 ? (total / nbNotes).toFixed(2) : null;
+                  
+                  let mention = '—';
+                  let badgeClass = 'text-muted';
+                  if (moyenneMatiere !== null) {
+                      let m = parseFloat(moyenneMatiere);
+                      if (m >= 16) { mention = 'Très Bien'; badgeClass = 'text-success fw-bold'; }
+                      else if (m >= 14) { mention = 'Bien'; badgeClass = 'text-success'; }
+                      else if (m >= 12) { mention = 'Assez Bien'; badgeClass = 'text-warning'; }
+                      else if (m >= 10) { mention = 'Passable'; badgeClass = 'text-warning'; }
+                      else { mention = 'Insuffisant'; badgeClass = 'text-danger fw-bold'; }
+                  }
+
+                  tbody.innerHTML += `
+                      <tr>
+                          <td>
+                              <div class="fw-semibold text-dark">${n.matiere || 'Matière'}</div>
+                              <small class="text-muted">${n.professeur || 'Professeur'}</small>
+                          </td>
+                          <td><span class="badge bg-light text-dark border px-2 py-1">${c1}</span></td>
+                          <td><span class="badge bg-light text-dark border px-2 py-1">${c2}</span></td>
+                          <td><span class="badge bg-light text-dark border px-2 py-1">${ex}</span></td>
+                          <td class="fw-bold text-primary">${moyenneMatiere !== null ? moyenneMatiere + '/20' : '—'}</td>
+                          <td><span class="${badgeClass}">${mention}</span></td>
+                      </tr>
+                  `;
+              });
+
+              document.getElementById('notes-count').textContent = data.length + ' Matière(s)';
+          })
+          .catch(err => {
+              console.error("Erreur notes:", err);
+          });
+  }
+  // charger les absences
+  function chargerAbsencesEtudiant(etudiantId) {
+      fetch(API + '/absences2.php?etudiant_id=' + etudiantId)
+          .then(res => res.json())
+          .then(data => {
+              const tbody = document.getElementById('abs-tbody');
+              tbody.innerHTML = '';
+
+              if (!Array.isArray(data) || data.length === 0) {
+                  document.getElementById('abs-empty').style.display = 'flex';
+                  document.getElementById('abs-count').textContent = '0 Absence';
+                  return;
+              }
+
+              document.getElementById('abs-empty').style.display = 'none';
+
+              data.forEach(a => {
+                  let badgeColor = 'bg-secondary';
+                  if (a.statut === 'Justifiée') badgeColor = 'bg-success';
+                  else if (a.statut === 'Non justifiée') badgeColor = 'bg-danger';
+                  else if (a.statut === 'En attente') badgeColor = 'bg-warning text-dark';
+
+                  tbody.innerHTML += `
+                      <tr>
+                          <td>
+                              <div class="fw-semibold text-dark">${a.matiere || 'Matière'}</div>
+                              <small class="text-muted">${a.professeur || 'Professeur'}</small>
+                          </td>
+                          <td><div class="text-mid">${a.date_abs || '—'}</div></td>
+                          <td><span class="fw-medium">${a.duree || '2'}H</span></td>
+                          <td><span class="badge ${badgeColor}">${a.statut}</span></td>
+                          <td><span class="text-muted text-sm">${a.justificatif || 'Aucun'}</span></td>
+                      </tr>
+                  `;
+              });
+
+              document.getElementById('abs-count').textContent = data.length + ' Absence(s)';
+          })
+          .catch(err => {
+              console.error("Erreur absences:", err);
+          });
+  }
+// FONCTION DE SWITCH ENTRE LES ONGLETS
+  function switchTab(btn, name) {
+      // 1. On retire la classe 'active' de TOUS les boutons
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      
+      // 2. On ajoute la classe 'active' uniquement au bouton cliqué
+      btn.classList.add('active');
+      
+      // 3. On cache TOUTES les sections (Notes et Absences)
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+      
+      // 4. On affiche la section correspondante au nom demandé 
+      document.getElementById('section-' + name).classList.add('visible');
+  }
+
+  function filterTbl(inp, id) {
+      const q = inp.value.toLowerCase();
+      document.querySelectorAll('#' + id + ' tr').forEach(r => {
+          r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+  }
+</script>
+</body>
+</html>

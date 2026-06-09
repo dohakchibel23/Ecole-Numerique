@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> TD & TP - Next Mind Academy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { font-family: "Inter", sans-serif; background-color: #F4F6F9; }
+    </style>
+    <script>
+        const API = 'http://localhost:8080/nextacademy_3';
+    </script>
+</head>
+<body class="bg-light">
+    <!--navigateur-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="acceuil2.html">
+                <img src="logo_white.png" alt="Logo" class="img-fluid rounded" style="width: 4rem; height: 3rem; object-fit: cover;">
+                NextMind Academy
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="acceuil2.html">
+                            <i class="bi bi-house"> Acceuil</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Emploi_temps.html">
+                            <i class="bi bi-clipboard-data"> Emploi du temps</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="cours.html">
+                            <i class="bi bi-book"> Cours</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notes_absences2.html">
+                            <i class="bi bi-clipboard-data"> Notes & Absences</i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"> 
+                                <span id="nav-username">username</span>
+                            </i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="profil.html">
+                                    <i class="bi bi-person"></i> Profil
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="index2.html">
+                                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <!--titre de la page-->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h2>
+                    <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
+                    Travaux Dirigés & Travaux Pratiques
+                </h2>
+            </div>
+        </div>
+        <!--tableau des documents-->
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                Liste des documents
+            </div>
+            <div class="card-body">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Document</th>
+                            <th>Module</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <i class="bi bi-file-earmark-pdf text-danger"></i> TD 1
+                            </td>
+                            <td>Html</td>
+                            <td>
+                                <span class="badge bg-success">TD</span>
+                            </td>
+                            <td>05/06/2026</td>
+                            <td>
+                                <a href="Pdf_cours/TD 1 - Comparaison entre langage de script et langage compilé.pdf" target="_blank" class="btn btn-sm btn-primary">
+                                    Ouvrir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                TD 2
+                            </td>
+                            <td>Html</td>
+                            <td>
+                                <span class="badge bg-success">TD</span>
+                            </td>
+                            <td>05/06/2026</td>
+                            <td>
+                                <a href="Pdf_cours/TD 2 - Comprendre l’architecture client-serveur.pdf" target="_blank" class="btn btn-sm btn-primary">
+                                    Ouvrir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                TP1
+                            </td>
+                            <td>HTML</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">TP</span>
+                            </td>
+                            <td>08/06/2026</td>
+                            <td>
+                                <a href="Pdf_cours/TP8_web.pdf" target="_blank" class="btn btn-sm btn-primary">
+                                    Ouvrir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-file-earmark-pdf text-danger"></i> TP 1
+                            </td>
+                            <td>Systèmes Réseaux</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">TP</span>
+                            </td>
+                            <td>10/06/2026</td>
+                            <td>
+                                <a href="Pdf_cours/TP1_reseaux.pdf" target="_blank" class="btn btn-sm btn-primary">
+                                    Ouvrir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                TP Packet Tracer
+                            </td>
+                            <td>Systèmes Réseaux</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">TP</span>
+                            </td>
+                            <td>12/06/2026</td>
+                            <td>
+                                <a href="Pdf_cours/tpp_4_reseau.pdf" target="_blank" class="btn btn-sm btn-primary">
+                                    Ouvrir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                TP PHP & SQL
+                            </td>
+                            <td>Base de Données</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">TP</span>
+                            </td>
+                            <td>15/06/2026</td>
+                            <td>
+                                <a href="Pdf_cours/TP7_php_sql.pdf" target="_blank" class="btn btn-sm btn-primary">
+                                    Ouvrir
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-primary text-muted text-center p-3 mt-5">
+        © 2026 Next Mind Academy - Plateforme Éducative
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
